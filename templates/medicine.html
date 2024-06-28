@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+{% block head %}
+
+<title>Document</title>
+
+{% endblock head %} {% block hero %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+      content="A Brain Tumor Detection and Classificaton Model"
+      name="description"
+    />
+    <meta
+      content="MRI, Brain Tumor, FakeFlipper, Brain Tumor
+            Classification, Brain Tumor Segmentation"
+      name="keywords"
+    />
+
+    <!-- Favicons -->
+    <link
+      href="{{ url_for('static',filename='custom/health.png') }}"
+      rel="icon"
+    />
+    <link
+      href="{{ url_for('static',filename='custom/health.png') }}"
+      rel="apple-touch-icon"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="{{
+            url_for('static',filename='vendor/bootstrap/css/bootstrap.min.css')
+            }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{
+            url_for('static',filename='vendor/bootstrap-icons/bootstrap-icons.css')
+            }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static',filename='vendor/aos/aos.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{
+            url_for('static',filename='vendor/remixicon/remixicon.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{
+            url_for('static',filename='vendor/swiper/swiper-bundle.min.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{
+            url_for('static',filename='vendor/glightbox/css/glightbox.min.css')
+            }}"
+      rel="stylesheet"
+    />
+
+    <!-- Main CSS File -->
+    <link
+      href="{{ url_for('static',filename='css/style.css') }}"
+      rel="stylesheet"
+    />
+    <title>Medicine</title>
+  </head>
+  <style>
+    body {
+      font-family: "Open Sans", sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      font-size: 100%;
+      color: #333;
+    }
+
+    .container {
+      width: 70%;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    button {
+      flex-basis: calc(48% - 10px);
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #007bff;
+      border: none;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #productsList {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    #healthCareBtn {
+        margin-top: 50px;
+    }
+
+    #nutriBtn {
+        margin-top: 50px;
+    }
+
+    .product {
+      width: calc(30% - 20px); /* Adjust the width here */
+      margin-bottom: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 10px; /* Adjust the padding here */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .product:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart {
+      margin-top: 20px;
+    }
+
+    #cartCount {
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    #cartItems {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+    }
+
+    .cart-item {
+      padding: 10px;
+      background-color: #f2f2f2;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .cart-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .remove-btn {
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .remove-btn:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .product-image {
+      width: 100%;
+      height: auto;
+      border-radius: 5px 5px 0 0;
+    }
+
+    /* Hidden input style */
+    #prescriptionUpload {
+      display: none;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      border-radius: 10px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+    .header {
+      transition: all 0.5s;
+      z-index: 997;
+      padding: 20px 0;
+    }
+
+    .header.header-scrolled {
+      background: #fff;
+      padding: 15px 0;
+      box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+    }
+
+    .fixed-top {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 1030;
+    }
+
+    .header .logo {
+      line-height: 0;
+    }
+
+    .header .logo img {
+      max-height: 40px;
+      margin-right: 6px;
+    }
+
+    .header .logo span {
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #012970;
+      font-family: "Nunito", sans-serif;
+      margin-top: 3px;
+    }
+
+    /*--------------------------------------------------------------
+# Navigation Menu
+--------------------------------------------------------------*/
+    /**
+* Desktop Navigation 
+*/
+    .navbar {
+      padding: 0;
+    }
+
+    .navbar ul {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      list-style: none;
+      align-items: center;
+    }
+
+    .navbar li {
+      position: relative;
+    }
+
+    .navbar a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0 10px 30px;
+      font-family: "Nunito", sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #013289;
+      white-space: nowrap;
+      transition: 0.3s;
+    }
+
+    .navbar a i {
+      font-size: 12px;
+      line-height: 0;
+      margin-left: 5px;
+    }
+
+    .navbar a:hover,
+    .navbar .active,
+    .navbar li:hover > a {
+      color: #4154f1;
+    }
+
+    .navbar .getstarted {
+      background: #4154f1;
+      padding: 8px 20px;
+      margin-left: 30px;
+      border-radius: 4px;
+      color: #fff;
+    }
+
+    .navbar .getstarted:hover {
+      color: #fff;
+      background: #5969f3;
+    }
+
+    .navbar .dropdown ul {
+      display: block;
+      position: absolute;
+      left: 14px;
+      top: calc(100% + 30px);
+      margin: 0;
+      padding: 10px 0;
+      z-index: 99;
+      opacity: 0;
+      visibility: hidden;
+      background: #fff;
+      box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+      transition: 0.3s;
+      border-radius: 4px;
+    }
+
+    .navbar .dropdown ul li {
+      min-width: 200px;
+    }
+
+    .navbar .dropdown ul a {
+      padding: 10px 20px;
+      font-size: 15px;
+      text-transform: none;
+      font-weight: 600;
+    }
+
+    .navbar .dropdown ul a i {
+      font-size: 12px;
+    }
+
+    .navbar .dropdown ul a:hover,
+    .navbar .dropdown ul .active:hover,
+    .navbar .dropdown ul li:hover > a {
+      color: #4154f1;
+    }
+
+    .navbar .dropdown:hover > ul {
+      opacity: 1;
+      top: 100%;
+      visibility: visible;
+    }
+
+    .navbar .dropdown .dropdown ul {
+      top: 0;
+      left: calc(100% - 30px);
+      visibility: hidden;
+    }
+
+    .navbar .dropdown .dropdown:hover > ul {
+      opacity: 1;
+      top: 0;
+      left: 100%;
+      visibility: visible;
+    }
+
+    @media (max-width: 1366px) {
+      .navbar .dropdown .dropdown ul {
+        left: -90%;
+      }
+      .navbar .dropdown .dropdown:hover > ul {
+        left: -100%;
+      }
+    }
+
+    /**
+* Mobile Navigation 
+*/
+    .mobile-nav-toggle {
+      color: #012970;
+      font-size: 28px;
+      cursor: pointer;
+      display: none;
+      line-height: 0;
+      transition: 0.5s;
+    }
+
+    .mobile-nav-toggle.bi-x {
+      color: #fff;
+    }
+
+    @media (max-width: 991px) {
+      .mobile-nav-toggle {
+        display: block;
+      }
+      .navbar ul {
+        display: none;
+      }
+    }
+
+    .navbar-mobile {
+      position: fixed;
+      overflow: hidden;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      background: rgba(1, 22, 61, 0.9);
+      transition: 0.3s;
+    }
+
+    .navbar-mobile .mobile-nav-toggle {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+
+    .navbar-mobile ul {
+      display: block;
+      position: absolute;
+      top: 55px;
+      right: 15px;
+      bottom: 15px;
+      left: 15px;
+      padding: 10px 0;
+      border-radius: 10px;
+      background-color: #fff;
+      overflow-y: auto;
+      transition: 0.3s;
+    }
+
+    .navbar-mobile a {
+      padding: 10px 20px;
+      font-size: 15px;
+      color: #012970;
+    }
+
+    .navbar-mobile a:hover,
+    .navbar-mobile .active,
+    .navbar-mobile li:hover > a {
+      color: #4154f1;
+    }
+
+    .navbar-mobile .getstarted {
+      margin: 15px;
+    }
+
+    .navbar-mobile .dropdown ul {
+      position: static;
+      display: none;
+      margin: 10px 20px;
+      padding: 10px 0;
+      z-index: 99;
+      opacity: 1;
+      visibility: visible;
+      background: #fff;
+      box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+    }
+
+    .navbar-mobile .dropdown ul li {
+      min-width: 200px;
+    }
+
+    .navbar-mobile .dropdown ul a {
+      padding: 10px 20px;
+    }
+
+    .navbar-mobile .dropdown ul a i {
+      font-size: 12px;
+    }
+
+    .navbar-mobile .dropdown ul a:hover,
+    .navbar-mobile .dropdown ul .active:hover,
+    .navbar-mobile .dropdown ul li:hover > a {
+      color: #4154f1;
+    }
+
+    .navbar-mobile .dropdown > .dropdown-active {
+      display: block;
+    }
+  </style>
+  <body>
+    <header id="header" class="header fixed-top header-scrolled">
+      <div
+        class="container-fluid container-xl d-flex align-items-center justify-content-between"
+      >
+        <a href="/" class="logo d-flex align-items-center">
+          <img
+            src="{{ url_for('static',filename='custom/logo1.png')
+                      }}"
+            alt=""
+          />
+          <span>&nbsp;CareMe</span>
+        </a>
+
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a class="nav-link scrollto active" href="/user">Home</a></li>
+            <li><a class="nav-link scrollto" href="#about">BMI</a></li>
+            <li><a class="nav-link scrollto" href="doctor">Find Doctors</a></li>
+            <li><a class="nav-link scrollto" href="medicine">Medicines</a></li>
+            <li><a class="nav-link scrollto" href="#features">Features</a></li>
+            <li><a class="nav-link scrollto" href="contact">Contact Us</a></li>
+            <li><a class="getstarted scrollto" href="login">Logout</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+        <!-- .navbar -->
+      </div>
+    </header>
+
+    <div class="container">
+      <h1>Choose by category</h1>
+      <div class="categories">
+        <button id="healthCareBtn">OTC & Health Needs</button>
+        <button id="nutriBtn">Health & Nutrition</button>
+        <div id="productsList"></div>
+      </div>
+      <div class="cart">
+        <h2>Cart (<span id="cartCount">0</span>)</h2>
+        <ul id="cartItems"></ul>
+        <div id="cartTotal"></div>
+        <button id="checkoutBtn">Checkout</button>
+      </div>
+    </div>
+
+    <!-- Hidden input for prescription upload -->
+    <input type="file" id="prescriptionUpload" accept="image/*" />
+
+    <script>
+      const healthCareBtn = document.getElementById("healthCareBtn");
+      const nutriBtn = document.getElementById("nutriBtn");
+      const productsList = document.getElementById("productsList");
+      const cartCount = document.getElementById("cartCount");
+      const cartItems = document.getElementById("cartItems");
+      const cartTotal = document.getElementById("cartTotal");
+      const checkoutBtn = document.getElementById("checkoutBtn");
+      const prescriptionUpload = document.getElementById("prescriptionUpload");
+
+      const healthCareProducts = [
+        {
+          name: "Paracetamol (650.0 Mg)",
+          price: 28.9,
+          image: "static/Images/para1.jpg",
+        },
+        {
+          name: "Clopiwyn a 75Mg Tab(Clopidogrel 75 MG)",
+          price: 52.2,
+          image: "static/Images/clopi.jpg",
+        },
+        {
+          name: "Digene Acidity & Gas Relief",
+          price: 26.55,
+          image: "static/Images/dig.jpg",
+        },
+        {
+          name: "Angelskin 100 gm Cream(with 15% Glycerin)",
+          price: 234.0,
+          image: "static/Images/angelskin.jpg",
+        },
+        {
+          name: "Cofrite Ginger Lemon Lozenges (Quick Relief from Sore Throat)",
+          price: 25,
+          image: "static/Images/lemon.jpg",
+        },
+        {
+          name: "Dabur Honitus 100ml Herbal Cough Syrup",
+          price: 140.0,
+          image: "static/Images/honitus.jpg",
+        },
+      ];
+
+      const nutriProducts = [
+        {
+          name: "Pediasure Nutritional Powder - Vanilla Delight (Specialized Nutrition DrinkDrink Powder for Kids Growth), 400 g Jar",
+          price: 789.6,
+          image: "static/Images/pedia.jpg",
+        },
+        {
+          name: "Horlicks Health & Nutrition Drink - Classic Malt,Supports Immunity & Holistic Growth | Health Mix Powder, 500 g Carton",
+          price: 250.0,
+          image: "static/Images/horlicks.jpg",
+        },
+        {
+          name: "Complan Nutrition & Health Drink – Kesar Badam 200 gm Carton",
+          price: 135,
+          image: "static/Images/complan.jpg",
+        },
+      ];
+
+      const cart = [];
+
+      function displayProducts(products, category) {
+        productsList.innerHTML = "";
+        products.forEach((product) => {
+          const productDiv = document.createElement("div");
+          productDiv.classList.add("product");
+          productDiv.innerHTML = `
+          <img class="product-image" src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>Price: ${product.price}</p>
+          <button class="addToCart" data-name="${product.name}" data-price="${product.price}">Add to Cart</button>
+        `;
+          productsList.appendChild(productDiv);
+        });
+
+        // Update the cart button labels
+        healthCareBtn.innerText = `OTC & Health Needs (${healthCareProducts.length})`;
+        nutriBtn.innerText = `Health & Nutrition (${nutriProducts.length})`;
+      }
+
+      healthCareBtn.addEventListener("click", () => {
+        displayProducts(healthCareProducts);
+      });
+
+      nutriBtn.addEventListener("click", () => {
+        displayProducts(nutriProducts);
+      });
+
+      productsList.addEventListener("click", (event) => {
+        if (event.target.matches(".addToCart")) {
+          const name = event.target.dataset.name;
+          const price = parseFloat(event.target.dataset.price);
+
+          // Simulate click on hidden input for prescription upload
+          prescriptionUpload.click();
+          prescriptionUpload.onchange = function () {
+            const prescriptionFile = prescriptionUpload.files[0];
+            if (prescriptionFile) {
+              // Add item to cart with prescription file
+              cart.push({
+                name: name,
+                price: price,
+                prescription: prescriptionFile,
+              });
+              updateCart();
+            } else {
+              alert("No file selected. Product not added to cart.");
+            }
+            // Reset the value of the file input
+            prescriptionUpload.value = null;
+          };
+        }
+      });
+
+      function updateCart() {
+        cartCount.innerText = cart.length;
+        cartItems.innerHTML = "";
+        let total = 0;
+
+        cart.forEach((item, index) => {
+          const cartItem = document.createElement("li");
+          cartItem.classList.add("cart-item");
+          cartItem.innerHTML = `<span>${item.name} (${item.price})</span>
+          <button class="remove-btn" data-index="${index}">Remove</button>
+        `;
+          cartItems.appendChild(cartItem);
+
+          total += item.price;
+        });
+
+        // Add a total label
+        const totalEl = document.createElement("li");
+        totalEl.innerText = `Total: ${total}`;
+        cartItems.appendChild(totalEl);
+
+        // Update total in cart
+        cartTotal.innerText = `Total: ${total.toFixed(2)}`;
+
+        // Add remove event listeners
+        const removeBtns = document.getElementsByClassName("remove-btn");
+        for (let i = 0; i < removeBtns.length; i++) {
+          removeBtns[i].addEventListener("click", () => {
+            const index = removeBtns[i].dataset.index;
+            cart.splice(index, 1);
+            updateCart();
+          });
+        }
+      }
+
+      // Remove an item from the cart
+      cartItems.addEventListener("click", (event) => {
+        if (event.target.matches(".remove-btn")) {
+          const index = event.target.dataset.index;
+          cart.splice(index, 1);
+          updateCart();
+        }
+      });
+
+      // Checkout
+      checkoutBtn.addEventListener("click", () => {
+        if (cart.length > 0) {
+          alert("Checkout completed. Thank you for your order!");
+          cart.length = 0;
+          updateCart();
+        } else {
+          alert(
+            "Your cart is empty. Please add some items before checking out."
+          );
+        }
+      });
+
+      // Restore saved cart and user
+      const savedCart = localStorage.getItem("cart");
+      if (savedCart) {
+        cart.push(...JSON.parse(savedCart));
+        updateCart();
+      }
+
+      // Save the cart back to local
+      const saveCartBtn = document.getElementById("saveCartBtn");
+      saveCartBtn.addEventListener("click", () => {
+        localStorage.setItem("cart", JSON.stringify(cart));
+      });
+
+      productsList.addEventListener("click", (event) => {
+        if (event.target.matches(".addToCart")) {
+          const name = event.target.dataset.name;
+          const price = parseFloat(event.target.dataset.price);
+
+          // Show modal dialog for file upload
+          showModalForFileUpload(name, price);
+        }
+      });
+
+      function showModalForFileUpload(name, price) {
+        // Show modal dialog
+        const modal = document.createElement("div");
+        modal.classList.add("modal");
+        modal.innerHTML = `
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Upload Prescription</h2>
+          <input type="file" id="prescriptionUploadModal" accept="image/*">
+          <button id="addToCartModal">Add to Cart</button>
+        </div>
+      `;
+        document.body.appendChild(modal);
+
+        // Get the upload input in the modal
+        const prescriptionUploadModal = document.getElementById(
+          "prescriptionUploadModal"
+        );
+
+        // Close the modal when clicking on the close button
+        const closeBtn = modal.querySelector(".close");
+        closeBtn.addEventListener("click", () => {
+          modal.style.display = "none";
+          document.body.removeChild(modal);
+        });
+
+        // Add to Cart button in the modal
+        const addToCartBtnModal = modal.querySelector("#addToCartModal");
+        addToCartBtnModal.addEventListener("click", () => {
+          const prescriptionFile = prescriptionUploadModal.files[0];
+          if (prescriptionFile) {
+            // Add item to cart with prescription file
+            cart.push({
+              name: name,
+              price: price,
+              prescription: prescriptionFile,
+            });
+            updateCart();
+            modal.style.display = "none";
+            document.body.removeChild(modal);
+          } else {
+            alert("No file selected. Product not added to cart.");
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
+
+{% endblock hero %}

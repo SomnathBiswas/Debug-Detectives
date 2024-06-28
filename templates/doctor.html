@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+
+<title>Find Doctors</title>
+
+{% block hero %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+      content="A Brain Tumor Detection and Classificaton Model"
+      name="description"
+    />
+    <meta
+      content="MRI, Brain Tumor, FakeFlipper, Brain Tumor
+            Classification, Brain Tumor Segmentation"
+      name="keywords"
+    />
+
+    <!-- Favicons -->
+    <link
+      href="{{ url_for('static',filename='custom/health.png') }}"
+      rel="icon"
+    />
+    <link
+      href="{{ url_for('static',filename='custom/health.png') }}"
+      rel="apple-touch-icon"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="{{
+            url_for('static',filename='vendor/bootstrap/css/bootstrap.min.css')
+            }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{
+            url_for('static',filename='vendor/bootstrap-icons/bootstrap-icons.css')
+            }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static',filename='vendor/aos/aos.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{
+            url_for('static',filename='vendor/remixicon/remixicon.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{
+            url_for('static',filename='vendor/swiper/swiper-bundle.min.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{
+            url_for('static',filename='vendor/glightbox/css/glightbox.min.css')
+            }}"
+      rel="stylesheet"
+    />
+
+    <!-- Main CSS File -->
+    <link
+      href="{{ url_for('static',filename='css/style.css') }}"
+      rel="stylesheet"
+    />
+    {% block head %} {% endblock %}
+
+    <style>
+      body {
+        font-family: "Open Sans", sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+
+      #main-content {
+        padding-top: 3px;
+        margin: 113px;
+      }
+
+      #main-content h1 {
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+
+      #container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .card {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        flex-basis: calc(31% - 20px);
+        margin-bottom: 20px;
+        padding: 20px;
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 200px; /* Set a fixed width */
+        height: 230px;
+      }
+
+      .card h2 {
+        margin-top: 0;
+        font-size: 120%;
+        font-weight: bold;
+      }
+
+      .card p {
+        margin-bottom: 0;
+        font-size: 80%;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card img {
+        max-width: 30%;
+        height: auto;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+
+      a {
+        text-decoration: none; /* Optional: Remove underline from anchor */
+      }
+
+      @media (max-width: 1100px) {
+        .card {
+          flex-basis: calc(48% - 20px);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .card {
+          flex-basis: calc(100% - 20px);
+        }
+      }
+
+      /* Radio buttons styling */
+      .radio-container {
+        margin-top: 20px;
+        display: flex;
+        margin-bottom: 20px;
+      }
+
+      .radio-container label {
+        margin-right: 10px;
+      }
+      /*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+      .header {
+        transition: all 0.5s;
+        z-index: 997;
+        padding: 20px 0;
+      }
+
+      .header.header-scrolled {
+        background: #fff;
+        padding: 15px 0;
+        box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+      }
+
+      .fixed-top {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1030;
+      }
+
+      .header .logo {
+        line-height: 0;
+      }
+
+      .header .logo img {
+        max-height: 40px;
+        margin-right: 6px;
+      }
+
+      .header .logo span {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #012970;
+        font-family: "Nunito", sans-serif;
+        margin-top: 3px;
+      }
+
+      /*--------------------------------------------------------------
+  # Navigation Menu
+  --------------------------------------------------------------*/
+      /**
+  * Desktop Navigation 
+  */
+      .navbar {
+        padding: 0;
+      }
+
+      .navbar ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        list-style: none;
+        align-items: center;
+      }
+
+      .navbar li {
+        position: relative;
+      }
+
+      .navbar a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0 10px 30px;
+        font-family: "Nunito", sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: #013289;
+        white-space: nowrap;
+        transition: 0.3s;
+      }
+
+      .navbar a i {
+        font-size: 12px;
+        line-height: 0;
+        margin-left: 5px;
+      }
+
+      .navbar a:hover,
+      .navbar .active,
+      .navbar li:hover > a {
+        color: #4154f1;
+      }
+
+      .navbar .getstarted {
+        background: #4154f1;
+        padding: 8px 20px;
+        margin-left: 30px;
+        border-radius: 4px;
+        color: #fff;
+      }
+
+      .navbar .getstarted:hover {
+        color: #fff;
+        background: #5969f3;
+      }
+
+      .navbar .dropdown ul {
+        display: block;
+        position: absolute;
+        left: 14px;
+        top: calc(100% + 30px);
+        margin: 0;
+        padding: 10px 0;
+        z-index: 99;
+        opacity: 0;
+        visibility: hidden;
+        background: #fff;
+        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+        transition: 0.3s;
+        border-radius: 4px;
+      }
+
+      .navbar .dropdown ul li {
+        min-width: 200px;
+      }
+
+      .navbar .dropdown ul a {
+        padding: 10px 20px;
+        font-size: 15px;
+        text-transform: none;
+        font-weight: 600;
+      }
+
+      .navbar .dropdown ul a i {
+        font-size: 12px;
+      }
+
+      .navbar .dropdown ul a:hover,
+      .navbar .dropdown ul .active:hover,
+      .navbar .dropdown ul li:hover > a {
+        color: #4154f1;
+      }
+
+      .navbar .dropdown:hover > ul {
+        opacity: 1;
+        top: 100%;
+        visibility: visible;
+      }
+
+      .navbar .dropdown .dropdown ul {
+        top: 0;
+        left: calc(100% - 30px);
+        visibility: hidden;
+      }
+
+      .navbar .dropdown .dropdown:hover > ul {
+        opacity: 1;
+        top: 0;
+        left: 100%;
+        visibility: visible;
+      }
+
+      @media (max-width: 1366px) {
+        .navbar .dropdown .dropdown ul {
+          left: -90%;
+        }
+        .navbar .dropdown .dropdown:hover > ul {
+          left: -100%;
+        }
+      }
+
+      /**
+  * Mobile Navigation 
+  */
+      .mobile-nav-toggle {
+        color: #012970;
+        font-size: 28px;
+        cursor: pointer;
+        display: none;
+        line-height: 0;
+        transition: 0.5s;
+      }
+
+      .mobile-nav-toggle.bi-x {
+        color: #fff;
+      }
+
+      @media (max-width: 991px) {
+        .mobile-nav-toggle {
+          display: block;
+        }
+        .navbar ul {
+          display: none;
+        }
+      }
+
+      .navbar-mobile {
+        position: fixed;
+        overflow: hidden;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background: rgba(1, 22, 61, 0.9);
+        transition: 0.3s;
+      }
+
+      .navbar-mobile .mobile-nav-toggle {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+      }
+
+      .navbar-mobile ul {
+        display: block;
+        position: absolute;
+        top: 55px;
+        right: 15px;
+        bottom: 15px;
+        left: 15px;
+        padding: 10px 0;
+        border-radius: 10px;
+        background-color: #fff;
+        overflow-y: auto;
+        transition: 0.3s;
+      }
+
+      .navbar-mobile a {
+        padding: 10px 20px;
+        font-size: 15px;
+        color: #012970;
+      }
+
+      .navbar-mobile a:hover,
+      .navbar-mobile .active,
+      .navbar-mobile li:hover > a {
+        color: #4154f1;
+      }
+
+      .navbar-mobile .getstarted {
+        margin: 15px;
+      }
+
+      .navbar-mobile .dropdown ul {
+        position: static;
+        display: none;
+        margin: 10px 20px;
+        padding: 10px 0;
+        z-index: 99;
+        opacity: 1;
+        visibility: visible;
+        background: #fff;
+        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+      }
+
+      .navbar-mobile .dropdown ul li {
+        min-width: 200px;
+      }
+
+      .navbar-mobile .dropdown ul a {
+        padding: 10px 20px;
+      }
+
+      .navbar-mobile .dropdown ul a i {
+        font-size: 12px;
+      }
+
+      .navbar-mobile .dropdown ul a:hover,
+      .navbar-mobile .dropdown ul .active:hover,
+      .navbar-mobile .dropdown ul li:hover > a {
+        color: #4154f1;
+      }
+
+      .navbar-mobile .dropdown > .dropdown-active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="header" class="header fixed-top header-scrolled">
+      <div
+        class="container-fluid container-xl d-flex align-items-center justify-content-between"
+      >
+        <a href="/" class="logo d-flex align-items-center">
+          <img
+            src="{{ url_for('static',filename='custom/logo1.png')
+                    }}"
+            alt=""
+          />
+          <span>&nbsp;CareMe</span>
+        </a>
+
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a class="nav-link scrollto active" href="/user">Home</a></li>
+            <li><a class="nav-link scrollto" href="#about">BMI</a></li>
+            <li><a class="nav-link scrollto" href="doctor">Find Doctors</a></li>
+            <li><a class="nav-link scrollto" href="medicine">Medicines</a></li>
+            <li><a class="nav-link scrollto" href="#features">Features</a></li>
+            <li><a class="nav-link scrollto" href="contact">Contact Us</a></li>
+            <li><a class="getstarted scrollto" href="login">Logout</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+        <!-- .navbar -->
+      </div>
+    </header>
+
+    <!-- <div id="container"> -->
+
+    <section id="main-content">
+      <h1>Medical Specialties</h1>
+      <div class="radio-container">
+        <label
+          ><input
+            type="radio"
+            name="category"
+            value="all"
+            checked
+            onclick="filterCards('all')"
+          />All</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="category"
+            value="general"
+            onclick="filterCards('general')"
+          />General</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="category"
+            value="surgery"
+            onclick="filterCards('surgery')"
+          />Surgery</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="category"
+            value="medicine"
+            onclick="filterCards('medicine')"
+          />Medicine</label
+        >
+      </div>
+      <div class="card-container">
+        <!-- Your cards here -->
+        <div class="card general">
+          <div class="card-content">
+            <a href="{{ url_for('general_medicine') }}">
+              <img src="static/Images/first-aid-kit.png" alt="General Medicine" />
+            </a>
+            <h2>General Medicine</h2>
+            <p>Description of General Medicine...</p>
+          </div>
+        </div>
+        <div class="card general">
+          <div class="card-content">
+            <img
+              src="static/Images/dermatology.png"
+              alt="Allergy & Immunology"
+            />
+            <h2>Allergy & Immunology</h2>
+            <p>Description of Allergy & Immunology...</p>
+          </div>
+        </div>
+        <div class="card general">
+          <div class="card-content">
+            <img src="static/Images/doctor.png" alt="General Physician" />
+            <h2>General Physician</h2>
+            <p>Description of General Physician...</p>
+          </div>
+        </div>
+        <div class="card general">
+          <div class="card-content">
+            <img
+              src="static/Images/gynecology.png"
+              alt="Obstetrics And Gynaecology"
+            />
+            <h2>Obstetrics And Gynaecology</h2>
+            <p>Description of Obstetrics And Gynaecology...</p>
+          </div>
+        </div>
+        <div class="card general">
+          <div class="card-content">
+            <img
+              src="static/Images/fertilization.png"
+              alt="Reproductive Medicine"
+            />
+            <h2>Reproductive Medicine</h2>
+            <p>Description of Reproductive Medicine...</p>
+          </div>
+        </div>
+        <div class="card medicine">
+          <div class="card-content">
+            <img src="static/Images/diabetes.png" />
+            <h2>Diabetology</h2>
+            <p>Description of Diabetology...</p>
+          </div>
+        </div>
+        <div class="card medicine">
+          <div class="card-content">
+            <img
+              src="static/Images/infectious-disease.png"
+              alt="Respiratory Medicine"
+            />
+            <h2>Infectious Disease</h2>
+            <p>Description of Infectious Medicine...</p>
+          </div>
+        </div>
+        <div class="card surgery">
+          <div class="card-content">
+            <img
+              src="static/Images/broken-bone.png"
+              alt="Knee & Shoulder Surgeon"
+            />
+            <h2>Knee & Shoulder Surgeon</h2>
+            <p>Description of Knee & Shoulder Surgeon...</p>
+          </div>
+        </div>
+        <div class="card medicine">
+          <div class="card-content">
+            <img src="static/Images/cardiology.png" alt="Cardiology" />
+            <h2>Cardiology</h2>
+            <p>Description of Cardiology...</p>
+          </div>
+        </div>
+        <div class="card medicine">
+          <div class="card-content">
+            <img src="static/Images/doctor (1).png" alt="Neurology" />
+            <h2>Neurology</h2>
+            <p>Description of Neurology...</p>
+          </div>
+        </div>
+        <div class="card medicine">
+          <div class="card-content">
+            <img
+              src="static/Images/tuberculosis.png"
+              alt="TB & Chest Disease"
+            />
+            <h2>TB & Chest Disease</h2>
+            <p>Description of TB & Chest Disease...</p>
+          </div>
+        </div>
+        <div class="card medicine">
+          <div class="card-content">
+            <img src="static/Images/lungs.png" alt="Pulmonary Medicine" />
+            <h2>Pulmonary Medicine</h2>
+            <p>Description of Pulmonary Medicine...</p>
+          </div>
+        </div>
+        <div class="card medicine">
+          <div class="card-content">
+            <img src="static/Images/brain.png" alt="Pulmonary Medicine" />
+            <h2>Senior Consultant Neurologist</h2>
+            <p>Description of Pulmonary Medicine...</p>
+          </div>
+        </div>
+        <div class="card medicine">
+          <div class="card-content">
+            <img src="static/Images/file.png" alt="Pulmonary Medicine" />
+            <h2>Senior Consultant Orthopaedic Surgeon</h2>
+            <p>Description of Pulmonary Medicine...</p>
+          </div>
+        </div>
+        <div class="card medicine">
+          <div class="card-content">
+            <img src="static/Images/autism.png" alt="Pulmonary Medicine" />
+            <h2>Psychiatrist</h2>
+            <p>Description of Pulmonary Medicine...</p>
+          </div>
+        </div>
+      </div>
+      <a
+        href="#"
+        class="back-to-top d-flex align-items-center justify-content-center"
+        ><i class="bi bi-arrow-up-short"></i
+      ></a>
+    </section>
+    <script>
+      function filterCards(category) {
+        const cards = document.querySelectorAll(".card");
+
+        cards.forEach((card) => {
+          if (category === "all") {
+            card.style.display = "block";
+          } else {
+            if (card.classList.contains(category)) {
+              card.style.display = "block";
+            } else {
+              card.style.display = "none";
+            }
+          }
+        });
+      }
+    </script>
+
+    <!-- Vendor JS Files -->
+    <script src="{{
+            url_for('static',filename='vendor/bootstrap/js/bootstrap.bundle.js')
+            }}"></script>
+    <script src="{{ url_for('static',filename='vendor/aos/aos.js') }}"></script>
+    <script src="{{
+            url_for('static',filename='vendor/swiper/swiper-bundle.min.js') }}"></script>
+    <script src="{{
+            url_for('static',filename='vendor/purecounter/purecounter.js') }}"></script>
+    <script src="{{
+            url_for('static',filename='vendor/isotope-layout/isotope.pkgd.min.js')
+            }}"></script>
+    <script src="{{
+            url_for('static',filename='vendor/glightbox/js/glightbox.min.js')
+            }}"></script>
+
+    <!-- Main JS File -->
+    <script src="{{ url_for('static',filename='js/main.js') }}"></script>
+  </body>
+</html>
+
+{% endblock hero %}

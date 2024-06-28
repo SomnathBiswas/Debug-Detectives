@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Disease List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            transition: background-color 0.3s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        #search-bar {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        .category {
+            margin-bottom: 20px;
+        }
+        
+        .category-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .disease {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+        }
+        
+        .disease:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.05);
+        }
+        
+        .disease-info {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1;
+            width: 200px;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .disease:hover .disease-info {
+            display: block;
+        }
+        
+        #dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+        
+        .dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+        
+        .dark-mode .disease {
+            background-color: #444;
+            color: #fff;
+        }
+        
+        .dark-mode .disease:hover {
+            background-color: #555;
+        }
+        
+        .dark-mode #dark-mode-toggle {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive Disease List</h1>
+        <input type="text" id="search-bar" placeholder="Search for a disease...">
+        <div id="disease-list"></div>
+    </div>
+    <button id="dark-mode-toggle">
+        <i class="fas fa-sun"></i>
+    </button>
+
+    <script>
+        const diseases = [
+            "Itching", "Skin Rash", "Nodal Skin Eruptions", "Continuous Sneezing", "Shivering", "Chills", "Joint Pain",
+            "Stomach Pain", "Acidity", "Ulcers on Tongue", "Muscle Wasting", "Vomiting", "Burning Micturition", "Spotting Urination",
+            "Fatigue", "Weight Gain", "Anxiety", "Cold Hands and Feet", "Mood Swings", "Weight Loss", "Restlessness", "Lethargy",
+            "Patches in Throat", "Irregular Sugar Level", "Cough", "High Fever", "Sunken Eyes", "Breathlessness", "Sweating",
+            "Dehydration", "Indigestion", "Headache", "Yellowish Skin", "Dark Urine", "Nausea", "Loss of Appetite", "Pain behind the Eyes",
+            "Back Pain", "Constipation", "Abdominal Pain", "Diarrhoea", "Mild Fever", "Yellow Urine", "Yellowing of Eyes",
+            "Acute Liver Failure", "Fluid Overload", "Swelling of Stomach", "Swelled Lymph Nodes", "Malaise",
+            "Blurred and Distorted Vision", "Phlegm", "Throat Irritation", "Redness of Eyes", "Sinus Pressure", "Runny Nose",
+            "Congestion", "Chest Pain", "Weakness in Limbs", "Fast Heart Rate", "Pain during Bowel Movements",
+            "Pain in Anal Region", "Bloody Stool", "Irritation in Anus", "Neck Pain", "Dizziness", "Cramps", "Bruising", "Obesity",
+            "Swollen Legs", "Swollen Blood Vessels", "Puffy Face and Eyes", "Enlarged Thyroid", "Brittle Nails",
+            "Swollen Extremities", "Excessive Hunger", "Extra Marital Contacts", "Drying and Tingling Lips", "Slurred Speech",
+            "Knee Pain", "Hip Joint Pain", "Muscle Weakness", "Stiff Neck", "Swelling Joints", "Movement Stiffness",
+            "Spinning Movements", "Loss of Balance", "Unsteadiness", "Weakness of One Body Side", "Loss of Smell",
+            "Bladder Discomfort", "Foul Smell of Urine", "Continuous Feel of Urine", "Passage of Gases", "Internal Itching",
+            "Toxic Look (Typhos)", "Depression", "Irritability", "Muscle Pain", "Altered Sensorium", "Red Spots over Body",
+            "Belly Pain", "Abnormal Menstruation", "Dischromic Patches", "Watering from Eyes", "Increased Appetite", "Polyuria",
+            "Family History", "Mucoid Sputum", "Rusty Sputum", "Lack of Concentration", "Visual Disturbances",
+            "Receiving Blood Transfusion", "Receiving Unsterile Injections", "Coma", "Stomach Bleeding", "Distention of Abdomen",
+            "History of Alcohol Consumption", "Blood in Sputum", "Prominent Veins on Calf", "Palpitations", "Painful Walking",
+            "Pus Filled Pimples", "Blackheads", "Scurring", "Skin Peeling", "Silver Like Dusting", "Small Dents in Nails",
+            "Inflammatory Nails", "Blister", "Red Sore Around Nose", "Yellow Crust Ooze"
+        ];
+
+        const categories = {
+            "Skin": ["Itching", "Skin Rash", "Nodal Skin Eruptions", "Bruising", "Red Spots over Body", "Skin Peeling", "Blister", "Red Sore Around Nose", "Yellow Crust Ooze"],
+            "Respiratory": ["Continuous Sneezing", "Breathlessness", "Cough", "Phlegm", "Runny Nose", "Sinus Pressure", "Congestion", "Mucoid Sputum", "Rusty Sputum", "Blood in Sputum"],
+            "Digestive": ["Stomach Pain", "Acidity", "Ulcers on Tongue", "Vomiting", "Indigestion", "Constipation", "Abdominal Pain", "Diarrhoea", "Swelling of Stomach", "Stomach Bleeding"],
+            "Neurological": ["Headache", "Dizziness", "Loss of Balance", "Unsteadiness", "Altered Sensorium", "Lack of Concentration", "Visual Disturbances", "Coma"],
+            "Cardiovascular": ["Chest Pain", "Fast Heart Rate", "Palpitations", "Prominent Veins on Calf"],
+            "Musculoskeletal": ["Joint Pain", "Muscle Wasting", "Back Pain", "Knee Pain", "Hip Joint Pain", "Muscle Weakness", "Stiff Neck", "Swelling Joints", "Movement Stiffness"],
+            "General": ["Fatigue", "Weight Gain", "Weight Loss", "High Fever", "Mild Fever", "Excessive Hunger", "Lethargy", "Restlessness", "Chills", "Shivering", "Dehydration", "Malaise"],
+            "Urinary": ["Burning Micturition", "Spotting Urination", "Dark Urine", "Yellow Urine", "Bladder Discomfort", "Foul Smell of Urine", "Continuous Feel of Urine"],
+            "Endocrine": ["Irregular Sugar Level", "Enlarged Thyroid", "Increased Appetite", "Polyuria"],
+            "Hepatic": ["Yellowish Skin", "Yellowing of Eyes", "Acute Liver Failure"],
+            "Mental Health": ["Anxiety", "Mood Swings", "Depression", "Irritability"],
+            "Others": ["Cold Hands and Feet", "Patches in Throat", "Sunken Eyes", "Sweating", "Pain behind the Eyes", "Fluid Overload", "Swelled Lymph Nodes", "Blurred and Distorted Vision", "Throat Irritation", "Redness of Eyes", "Obesity", "Swollen Legs", "Swollen Blood Vessels", "Puffy Face and Eyes", "Brittle Nails", "Swollen Extremities", "Extra Marital Contacts", "Drying and Tingling Lips", "Slurred Speech", "Spinning Movements", "Weakness of One Body Side", "Loss of Smell", "Passage of Gases", "Internal Itching", "Toxic Look (Typhos)", "Abnormal Menstruation", "Dischromic Patches", "Watering from Eyes", "Family History", "Receiving Blood Transfusion", "Receiving Unsterile Injections", "History of Alcohol Consumption", "Painful Walking", "Pus Filled Pimples", "Blackheads", "Scurring", "Silver Like Dusting", "Small Dents in Nails", "Inflammatory Nails"]
+        };
+
+        function renderDiseases() {
+            const diseaseList = document.getElementById("disease-list");
+            diseaseList.innerHTML = "";
+
+            for (const [category, categoryDiseases] of Object.entries(categories)) {
+                const categoryDiv = document.createElement("div");
+                categoryDiv.className = "category";
+                categoryDiv.innerHTML = `<div class="category-title">${category}</div>`;
+
+                categoryDiseases.forEach(disease => {
+                    const diseaseDiv = document.createElement("div");
+                    diseaseDiv.className = "disease";
+                    diseaseDiv.onclick = () => copyToClipboard(disease);
+                    diseaseDiv.innerHTML = `
+                        ${disease}
+                        <div class="disease-info">
+                            This is some additional information about ${disease}.
+                            Click to copy to clipboard.
+                        </div>
+                    `;
+                    categoryDiv.appendChild(diseaseDiv);
+                });
+
+                diseaseList.appendChild(categoryDiv);
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`Disease copied to clipboard: ${text}`);
+            });
+        }
+
+        function searchDiseases() {
+            const searchTerm = document.getElementById("search-bar").value.toLowerCase();
+            const diseaseElements = document.getElementsByClassName("disease");
+
+            for (const element of diseaseElements) {
+                const diseaseName = element.textContent.toLowerCase();
+                if (diseaseName.includes(searchTerm)) {
+                    element.style.display = "inline-block";
+                    element.closest('.category').style.display = "block";
+                } else {
+                    element.style.display = "none";
+                }
+            }
+
+            // Hide empty categories
+            const categories = document.getElementsByClassName("category");
+            for (const category of categories) {
+                const visibleDiseases = category.querySelectorAll('.disease[style="display: inline-block;"]');
+                if (visibleDiseases.length === 0) {
+                    category.style.display = "none";
+                } else {
+                    category.style.display = "block";
+                }
+            }
+        }
+
+        document.getElementById("search-bar").addEventListener("input", searchDiseases);
+
+        document.getElementById("dark-mode-toggle").addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+            const icon = document.querySelector("#dark-mode-toggle i");
+            if (document.body.classList.contains("dark-mode")) {
+                icon.classList.replace("fa-sun", "fa-moon");
+            } else {
+                icon.classList.replace("fa-moon", "fa-sun");
+            }
+        });
+
+        renderDiseases();
+    </script>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add New Patient</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 400px; /* Set maximum width for better readability */
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 15px;
+      }
+
+      .form-group {
+        margin-bottom: 10px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"],
+      input[type="date"],
+      input[type="number"],
+      select {
+        width: calc(100% - 20px); /* Adjust width to fit in smaller size */
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+        margin-top: 5px;
+      }
+
+      select:hover {
+        cursor: pointer;
+        border-color: #999;
+      }
+
+      .note {
+        margin-top: 10px;
+        font-size: 0.9em;
+      }
+
+      .info {
+        margin-top: 15px;
+        font-style: italic;
+        font-size: 0.9em;
+      }
+
+      .button-group {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      #back-btn {
+        background-color: #ccc;
+      }
+
+      #save-btn {
+        background-color: #4caf50;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Add New Patient</h1>
+      <form id="patient-form">
+        <div class="form-group">
+          <label for="full-name">Full Name</label>
+          <input type="text" id="full-name" name="full-name" required />
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender">
+            <option value="" disabled selected>Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="others">Others</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="date-of-birth">Date of Birth (DD/MM/YYYY)</label>
+          <input type="date" id="date-of-birth" name="date-of-birth" />
+        </div>
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" min="0" />
+        </div>
+        <p class="note">Note: All Fields are Mandatory</p>
+        <p class="info">
+          You can enter either the Date Of Birth or the Age of the patient for
+          their age. To enter the age of an infant, please use the Date of Birth
+          field.
+        </p>
+        <div class="button-group">
+          <button type="button" id="back-btn">Back</button>
+          <button type="submit" id="save-btn">Save & Continue</button>
+        </div>
+      </form>
+    </div>
+    <script>
+      const form = document.getElementById("patient-form");
+      const genderSelect = document.getElementById("gender");
+      const dateOfBirthInput = document.getElementById("date-of-birth");
+      const ageInput = document.getElementById("age");
+
+      // Focus the first input field on page load
+      document.getElementById("full-name").focus();
+
+      // Event listener for select change to update border
+      genderSelect.addEventListener("change", () => {
+        genderSelect.style.borderColor = genderSelect.value ? "#999" : "#ccc";
+      });
+
+      // Event listener for form submission
+      form.addEventListener("submit", (event) => {
+        event.preventDefault(); // Prevent default form submission
+        const formData = new FormData(form);
+        console.log("Form Data:", formData); // Example: log form data to console
+        // Your form submission logic here (e.g., send data to server)
+      });
+
+      // Event listener for age input change to clear date of birth input
+      ageInput.addEventListener("input", () => {
+        dateOfBirthInput.value = "";
+      });
+
+      // Event listener for date of birth input change to clear age input
+      dateOfBirthInput.addEventListener("input", () => {
+        ageInput.value = "";
+      });
+    </script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add New Patient</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 400px; /* Set maximum width for better readability */
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 15px;
+      }
+
+      .form-group {
+        margin-bottom: 10px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"],
+      input[type="date"],
+      input[type="number"],
+      select {
+        width: calc(100% - 20px); /* Adjust width to fit in smaller size */
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+        margin-top: 5px;
+      }
+
+      select:hover {
+        cursor: pointer;
+        border-color: #999;
+      }
+
+      .note {
+        margin-top: 10px;
+        font-size: 0.9em;
+      }
+
+      .info {
+        margin-top: 15px;
+        font-style: italic;
+        font-size: 0.9em;
+      }
+
+      .button-group {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .button-group a {
+        text-decoration: none;
+      }
+
+      button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      #back-btn {
+        background-color: #ccc;
+      }
+
+      #book-appointment-btn {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      /* Popup styles */
+      .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      .popup-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Add New Patient</h1>
+      <form id="patient-form">
+        <div class="form-group">
+          <label for="full-name">Full Name</label>
+          <input type="text" id="full-name" name="full-name" required />
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender">
+            <option value="" disabled selected>Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="others">Others</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="date-of-birth">Date of Birth (DD/MM/YYYY)</label>
+          <input type="date" id="date-of-birth" name="date-of-birth" />
+        </div>
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" min="0" />
+        </div>
+        <p class="note">Note: All Fields are Mandatory</p>
+        <p class="info">
+          You can enter either the Date Of Birth or the Age of the patient for
+          their age. To enter the age of an infant, please use the Date of Birth
+          field.
+        </p>
+        <div class="button-group">
+          <a href="{{ url_for('general_medicine') }}">
+            <button type="button" id="back-btn">Back</button>
+          </a>
+
+          <!-- <button type="button" id="book-appointment-btn">Book Appointment</button> -->
+          <button type="submit" id="book-appointment-btn">
+            Confirm & Submit
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Popup HTML -->
+    <div class="popup-overlay" id="popup">
+      <div class="popup-content">
+        <h2>Appointment Booked!</h2>
+        <p>Thank you for booking an appointment.</p>
+        <button id="close-popup-btn">Close</button>
+      </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("patient-form");
+        const bookAppointmentBtn = document.getElementById("book-appointment-btn");
+        const closePopupBtn = document.getElementById("close-popup-btn");
+        const popup = document.getElementById("popup");
+      
+        // Function to check if the form is valid
+        function isFormValid() {
+          const fullName = document.getElementById("full-name").value.trim();
+          const gender = document.getElementById("gender").value;
+          const dateOfBirth = document.getElementById("date-of-birth").value;
+          const age = document.getElementById("age").value.trim();
+      
+          // Check if any required field is empty
+          if (fullName === "" || gender === "" || (dateOfBirth === "" && age === "")) {
+            return false;
+          }
+      
+          return true;
+        }
+      
+        // Show popup when "Confirm & Submit" button is clicked and form is valid
+        bookAppointmentBtn.addEventListener("click", (event) => {
+          if (!isFormValid()) {
+            event.preventDefault(); // Prevent form submission if form is invalid
+            alert("Please fill out all required fields.");
+            return;
+          }
+      
+          event.preventDefault(); // Prevent default form submission
+          popup.style.display = "flex";
+        });
+      
+        // Close popup when "Close" button is clicked
+        closePopupBtn.addEventListener("click", () => {
+          popup.style.display = "none";
+        });
+      </script>
+  </body>
+</html>

@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+
+<title>Find Doctors</title>
+
+{% block hero %}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctor's Card</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+      content="A Brain Tumor Detection and Classificaton Model"
+      name="description"
+    />
+    <meta
+      content="MRI, Brain Tumor, FakeFlipper, Brain Tumor
+            Classification, Brain Tumor Segmentation"
+      name="keywords"
+    />
+
+    <!-- Favicons -->
+    <link
+      href="{{ url_for('static',filename='custom/health.png') }}"
+      rel="icon"
+    />
+    <link
+      href="{{ url_for('static',filename='custom/health.png') }}"
+      rel="apple-touch-icon"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="{{
+            url_for('static',filename='vendor/bootstrap/css/bootstrap.min.css')
+            }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{
+            url_for('static',filename='vendor/bootstrap-icons/bootstrap-icons.css')
+            }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static',filename='vendor/aos/aos.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{
+            url_for('static',filename='vendor/remixicon/remixicon.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{
+            url_for('static',filename='vendor/swiper/swiper-bundle.min.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{
+            url_for('static',filename='vendor/glightbox/css/glightbox.min.css')
+            }}"
+      rel="stylesheet"
+    />
+
+    <!-- Main CSS File -->
+    <link
+      href="{{ url_for('static',filename='css/style.css') }}"
+      rel="stylesheet"
+    />
+
+    {% block head %} {% endblock %}
+
+    <style>
+      body {
+        font-family: "Open Sans", sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+
+      #main-content h1 {
+        padding-top: 44px;
+        padding-left: 112px;
+      }
+
+      #container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .card {
+        width: calc(33.33% - 40px);
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card-top {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+      }
+
+      .card-top img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-right: 20px;
+      }
+
+      .card-info {
+        flex: 1;
+      }
+
+      .card-bottom {
+        padding: 20px;
+        flex: 1;
+      }
+
+      .card-bottom p {
+        margin-bottom: 5px;
+        padding-bottom: 10px;
+      }
+
+      /*Mobile View*/
+      @media screen and (max-width: 768px) {
+        .card {
+          width: 100%;
+          margin-bottom: 20px;
+        }
+      }
+
+      .availability {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 22px;
+      }
+
+      .availability span {
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .availability .new {
+        cursor: pointer;
+        position: relative;
+        padding: 1px 20px;
+        font-size: 18px;
+        color: rgb(193, 163, 98);
+        border: 2px solid rgb(193, 163, 98);
+        border-radius: 34px;
+        background-color: transparent;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        overflow: hidden;
+      }
+
+      .availability .new::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        width: 50px;
+        height: 50px;
+        border-radius: inherit;
+        scale: 0;
+        z-index: -1;
+        background-color: rgb(193, 163, 98);
+        transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .availability .new:hover::before {
+        scale: 3;
+      }
+
+      .availability .new:hover {
+        color: #212121;
+        scale: 1.1;
+        box-shadow: 0 0px 20px rgba(193, 163, 98, 0.4);
+      }
+
+      .availability .new:active {
+        scale: 1;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .buttons button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 100px;
+        cursor: pointer;
+        color: #fff;
+        background-color: #ff0000;
+        transition: background-color 0.3s ease;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 100%;
+      }
+
+      .buttons h3 {
+        margin-bottom: -26px;
+        padding-top: 15px;
+        font-size: 100%;
+        color: #0000ff;
+      }
+
+      /*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+      .header {
+        transition: all 0.5s;
+        z-index: 997;
+        padding: 20px 0;
+      }
+
+      .header.header-scrolled {
+        background: #fff;
+        padding: 15px 0;
+        box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+      }
+
+      .fixed-top {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1030;
+      }
+
+      .header .logo {
+        line-height: 0;
+      }
+
+      .header .logo img {
+        max-height: 40px;
+        margin-right: 6px;
+      }
+
+      .header .logo span {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #012970;
+        font-family: "Nunito", sans-serif;
+        margin-top: 3px;
+      }
+
+      /*--------------------------------------------------------------
+# Navigation Menu
+--------------------------------------------------------------*/
+      /**
+* Desktop Navigation 
+*/
+      .navbar {
+        padding: 0;
+      }
+
+      .navbar ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        list-style: none;
+        align-items: center;
+      }
+
+      .navbar li {
+        position: relative;
+      }
+
+      .navbar a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0 10px 30px;
+        font-family: "Nunito", sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: #013289;
+        white-space: nowrap;
+        transition: 0.3s;
+      }
+
+      .navbar a i {
+        font-size: 12px;
+        line-height: 0;
+        margin-left: 5px;
+      }
+
+      .navbar a:hover,
+      .navbar .active,
+      .navbar li:hover > a {
+        color: #4154f1;
+      }
+
+      .navbar .getstarted {
+        background: #4154f1;
+        padding: 8px 20px;
+        margin-left: 30px;
+        border-radius: 4px;
+        color: #fff;
+      }
+
+      .navbar .getstarted:hover {
+        color: #fff;
+        background: #5969f3;
+      }
+
+      .navbar .dropdown ul {
+        display: block;
+        position: absolute;
+        left: 14px;
+        top: calc(100% + 30px);
+        margin: 0;
+        padding: 10px 0;
+        z-index: 99;
+        opacity: 0;
+        visibility: hidden;
+        background: #fff;
+        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+        transition: 0.3s;
+        border-radius: 4px;
+      }
+
+      .navbar .dropdown ul li {
+        min-width: 200px;
+      }
+
+      .navbar .dropdown ul a {
+        padding: 10px 20px;
+        font-size: 15px;
+        text-transform: none;
+        font-weight: 600;
+      }
+
+      .navbar .dropdown ul a i {
+        font-size: 12px;
+      }
+
+      .navbar .dropdown ul a:hover,
+      .navbar .dropdown ul .active:hover,
+      .navbar .dropdown ul li:hover > a {
+        color: #4154f1;
+      }
+
+      .navbar .dropdown:hover > ul {
+        opacity: 1;
+        top: 100%;
+        visibility: visible;
+      }
+
+      .navbar .dropdown .dropdown ul {
+        top: 0;
+        left: calc(100% - 30px);
+        visibility: hidden;
+      }
+
+      .navbar .dropdown .dropdown:hover > ul {
+        opacity: 1;
+        top: 0;
+        left: 100%;
+        visibility: visible;
+      }
+
+      @media (max-width: 1366px) {
+        .navbar .dropdown .dropdown ul {
+          left: -90%;
+        }
+        .navbar .dropdown .dropdown:hover > ul {
+          left: -100%;
+        }
+      }
+
+      /**
+* Mobile Navigation 
+*/
+      .mobile-nav-toggle {
+        color: #012970;
+        font-size: 28px;
+        cursor: pointer;
+        display: none;
+        line-height: 0;
+        transition: 0.5s;
+      }
+
+      .mobile-nav-toggle.bi-x {
+        color: #fff;
+      }
+
+      @media (max-width: 991px) {
+        .mobile-nav-toggle {
+          display: block;
+        }
+        .navbar ul {
+          display: none;
+        }
+      }
+
+      .navbar-mobile {
+        position: fixed;
+        overflow: hidden;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background: rgba(1, 22, 61, 0.9);
+        transition: 0.3s;
+      }
+
+      .navbar-mobile .mobile-nav-toggle {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+      }
+
+      .navbar-mobile ul {
+        display: block;
+        position: absolute;
+        top: 55px;
+        right: 15px;
+        bottom: 15px;
+        left: 15px;
+        padding: 10px 0;
+        border-radius: 10px;
+        background-color: #fff;
+        overflow-y: auto;
+        transition: 0.3s;
+      }
+
+      .navbar-mobile a {
+        padding: 10px 20px;
+        font-size: 15px;
+        color: #012970;
+      }
+
+      .navbar-mobile a:hover,
+      .navbar-mobile .active,
+      .navbar-mobile li:hover > a {
+        color: #4154f1;
+      }
+
+      .navbar-mobile .getstarted {
+        margin: 15px;
+      }
+
+      .navbar-mobile .dropdown ul {
+        position: static;
+        display: none;
+        margin: 10px 20px;
+        padding: 10px 0;
+        z-index: 99;
+        opacity: 1;
+        visibility: visible;
+        background: #fff;
+        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+      }
+
+      .navbar-mobile .dropdown ul li {
+        min-width: 200px;
+      }
+
+      .navbar-mobile .dropdown ul a {
+        padding: 10px 20px;
+      }
+
+      .navbar-mobile .dropdown ul a i {
+        font-size: 12px;
+      }
+
+      .navbar-mobile .dropdown ul a:hover,
+      .navbar-mobile .dropdown ul .active:hover,
+      .navbar-mobile .dropdown ul li:hover > a {
+        color: #4154f1;
+      }
+
+      .navbar-mobile .dropdown > .dropdown-active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="header" class="header fixed-top header-scrolled">
+      <div
+        class="container-fluid container-xl d-flex align-items-center justify-content-between"
+      >
+        <a href="/" class="logo d-flex align-items-center">
+          <img
+            src="{{ url_for('static',filename='custom/logo1.png')
+                      }}"
+            alt=""
+          />
+          <span>&nbsp;CareMe</span>
+        </a>
+
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a class="nav-link scrollto active" href="/user">Home</a></li>
+            <li><a class="nav-link scrollto" href="#about">BMI</a></li>
+            <li><a class="nav-link scrollto" href="doctor">Find Doctors</a></li>
+            <li><a class="nav-link scrollto" href="medicine">Medicines</a></li>
+            <li><a class="nav-link scrollto" href="#features">Features</a></li>
+            <li><a class="nav-link scrollto" href="#team">Team</a></li>
+            <li><a class="getstarted scrollto" href="login">Logout</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+        <!-- .navbar -->
+      </div>
+    </header>
+    <section id="main-content">
+      <h1>Doctors Available in General Medicine</h1>
+
+      <div id="container">
+        <div class="card">
+          <div class="card-top">
+            <img src="static/Images/d1.png" alt="Doctor's Avatar" />
+            <div class="info">
+              <h3>Dr. Chandra Shekar</h3>
+              <p>General Physician, General Medicine, Diabetology</p>
+            </div>
+          </div>
+          <div class="card-bottom">
+            <p>MD - General Medicine - General Medicine</p>
+            <p>6 years experience</p>
+            <p>Available for</p>
+            <div class="availability">
+              <button class="new">Online</button>
+              <button class="new">Clinic Visit</button>
+            </div>
+            <div class="buttons">
+              <h3>View Details</h3>
+              <button>Book Appointment</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <img src="static/Images/d2.png" alt="Doctor's Avatar" />
+            <div class="info">
+              <h3>Dr. Jyothirmayi Tangirala</h3>
+              <p>Infectious Disease, General Medicine, Diabetology</p>
+            </div>
+          </div>
+          <div class="card-bottom">
+            <p>MD - General Medicine - General Medicine</p>
+            <p>10 years experience</p>
+            <p>Available for</p>
+            <div class="availability">
+              <button class="new">Online</button>
+              <button class="new">Clinic Visit</button>
+            </div>
+            <div class="buttons">
+              <h3>View Details</h3>
+              <button>Book Appointment</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <img src="static/Images/d3.png" alt="Doctor's Avatar" />
+            <div class="info">
+              <h3>Dr. Vanamala Jagan</h3>
+              <p>General Physician, General Medicine, Diabetology</p>
+            </div>
+          </div>
+          <div class="card-bottom">
+            <p>M.B.B.S, Fellowship in Diabetology - General Medicine</p>
+            <p>4.2 years experience</p>
+            <p>Available for</p>
+            <div class="availability">
+              <button class="new">Online</button>
+              <button class="new">Clinic Visit</button>
+            </div>
+            <div class="buttons">
+              <h3>View Details</h3>
+              <button>Book Appointment</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <img src="static/Images/d1.png" alt="Doctor's Avatar" />
+            <div class="info">
+              <h3>Dr. Chandra Shekar</h3>
+              <p>General Physician, General Medicine, Diabetology</p>
+            </div>
+          </div>
+          <div class="card-bottom">
+            <p>MD - General Medicine - General Medicine</p>
+            <p>6 years experience</p>
+            <p>Available for</p>
+            <div class="availability">
+              <button class="new">Online</button>
+              <button class="new">Clinic Visit</button>
+            </div>
+            <div class="buttons">
+              <h3>View Details</h3>
+              <a href="{{ url_for('book') }}">
+                <button>Book Appointment</button>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <img src="static/Images/d2.png" alt="Doctor's Avatar" />
+            <div class="info">
+              <h3>Dr. Jyothirmayi Tangirala</h3>
+              <p>Infectious Disease, General Medicine, Diabetology</p>
+            </div>
+          </div>
+          <div class="card-bottom">
+            <p>MD - General Medicine - General Medicine</p>
+            <p>10 years experience</p>
+            <p>Available for</p>
+            <div class="availability">
+              <button class="new">Online</button>
+              <button class="new">Clinic Visit</button>
+            </div>
+            <div class="buttons">
+              <h3>View Details</h3>
+              <button>Book Appointment</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-top">
+            <img src="static/Images/d3.png" alt="Doctor's Avatar" />
+            <div class="info">
+              <h3>Dr. Vanamala Jagan</h3>
+              <p>General Physician, General Medicine, Diabetology</p>
+            </div>
+          </div>
+          <div class="card-bottom">
+            <p>M.B.B.S, Fellowship in Diabetology - General Medicine</p>
+            <p>4.2 years experience</p>
+            <p>Available for</p>
+            <div class="availability">
+              <button class="new">Online</button>
+              <button class="new">Clinic Visit</button>
+            </div>
+            <div class="buttons">
+              <h3>View Details</h3>
+              <button>Book Appointment</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a
+        href="#"
+        class="back-to-top d-flex align-items-center justify-content-center"
+        ><i class="bi bi-arrow-up-short"></i>
+      </a>
+    </section>
+
+    <script>
+      function filterCards(category) {
+        const cards = document.querySelectorAll(".card");
+
+        cards.forEach((card) => {
+          if (category === "all") {
+            card.style.display = "block";
+          } else {
+            if (card.classList.contains(category)) {
+              card.style.display = "block";
+            } else {
+              card.style.display = "none";
+            }
+          }
+        });
+      }
+    </script>
+
+    <!-- Vendor JS Files -->
+    <script src="{{
+              url_for('static',filename='vendor/bootstrap/js/bootstrap.bundle.js')
+              }}"></script>
+    <script src="{{ url_for('static',filename='vendor/aos/aos.js') }}"></script>
+    <script src="{{
+              url_for('static',filename='vendor/swiper/swiper-bundle.min.js') }}"></script>
+    <script src="{{
+              url_for('static',filename='vendor/purecounter/purecounter.js') }}"></script>
+    <script src="{{
+              url_for('static',filename='vendor/isotope-layout/isotope.pkgd.min.js')
+              }}"></script>
+    <script src="{{
+              url_for('static',filename='vendor/glightbox/js/glightbox.min.js')
+              }}"></script>
+
+    <!-- Main JS File -->
+    <script src="{{ url_for('static',filename='js/main.js') }}"></script>
+  </body>
+</html>
+
+{% endblock hero %}
