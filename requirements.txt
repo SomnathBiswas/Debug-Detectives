@@ -1,0 +1,7 @@
+Flask
+Flask-SQLAlchemy
+pandas
+scikit-learn
+joblib
+openpyxl
+duckduckgo-search
