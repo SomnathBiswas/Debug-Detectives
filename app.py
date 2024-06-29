@@ -327,7 +327,7 @@ def chat_msg():
     if request.args["message"]=="undefined":
 
         response.append(msgCons.WELCOME_GREET[rand_num])
-        response.append("What is your good name?")
+        response.append("What is your name 😀?")
         return jsonify({'status': 'OK', 'answer': response})
 
 
@@ -337,41 +337,41 @@ def chat_msg():
         currentState = userSession.get(sessionId)
 
         if currentState ==-1:
-            response.append("Hi "+user_message+", To predict your disease based on symptopms, we need some information about you. Please provide accordingly.")
+            response.append("Hi "+user_message+", To predict your disease based on symptopms, we need some information about you. Please provide accordingly 😊.")
             userSession[sessionId] = userSession.get(sessionId) +1
             all_result['name'] = user_message            
 
         if currentState==0:
             username = all_result['name']
-            response.append(username+", what is you age?")
+            response.append(username+", What is you age 😎?")
             userSession[sessionId] = userSession.get(sessionId) +1
 
         if currentState==1:
             pattern = r'\d+'
             result = re.findall(pattern, user_message)
             if len(result)==0:
-                response.append("Invalid input please provide valid age.")
+                response.append("Invalid input please provide valid age 🥲.")
             else:                
                 if float(result[0])<=0 or float(result[0])>=130:
-                    response.append("Invalid input please provide valid age.")
+                    response.append("Invalid input please provide valid age 😫.")
                 else:
                     all_result['age'] = float(result[0])
                     username = all_result['name']
-                    response.append(username+", Choose Option ?")            
-                    response.append("1. Predict Disease")
-                    response.append("2. Check Disease Symtoms")
+                    response.append(username+", Choose Option ✅ ?")            
+                    response.append("1. Predict Disease 💉")
+                    response.append("2. Check Disease Symtoms 😷")
                     userSession[sessionId] = userSession.get(sessionId) +1
 
         if currentState==2:
 
             if '2' in user_message.lower() or 'check' in user_message.lower():
                 username = all_result['name']
-                response.append(username+", What's Disease Name?")
+                response.append(username+", What's Disease Name 🤐?")
                 userSession[sessionId] = 20
             else:
 
                 username = all_result['name']
-                response.append(username+", What symptoms are you experiencing?")         
+                response.append(username+", What symptoms are you experiencing 🥶?")         
                 response.append('<a href="/diseases" target="_blank">Symptoms List</a>')   
                 userSession[sessionId] = userSession.get(sessionId) +1
 
@@ -380,9 +380,9 @@ def chat_msg():
             
             all_result['symptoms'].extend(user_message.split(","))
             username = all_result['name']
-            response.append(username+", What kind of symptoms are you currently experiencing?")            
+            response.append(username+", What kind of symptoms are you currently experiencing 🤨?")            
             response.append("1. Check Disease")   
-            response.append('<a href="/diseases" target="_blank">Symptoms List</a>')   
+            response.append('<a href="/diseases" target="_blank">Symptoms List 📃</a>')   
             userSession[sessionId] = userSession.get(sessionId) +1
 
 
@@ -390,13 +390,13 @@ def chat_msg():
 
             if '1' in user_message or 'disease' in user_message:
                 disease,type = predict_disease_from_symptom(all_result['symptoms'])  
-                response.append("<b>The following disease may be causing your discomfort</b>")
+                response.append("<b>The following disease may be causing your discomfort 😵‍💫</b>")
                 response.append(disease)
                 response.append('Please choose one of the following options:')
                 #response.append(f'<a href="https://www.google.com/search?q={type} disease hospital near me" target="_blank">1. Search Nearby Hospitals</a> OR <a href="{{ url_for("doctor") }}" target="_blank">2. Find Doctors on Our Website</a>')
                 response.append(f'<a href="https://www.google.com/search?q={type} disease hospital near me" target="_blank">Search Near By Hospitals</a>')   
-                response.append('<a href="/doctor" target="_blank">Find Doctors on Our Website</a>')
-                response.append('Plz choose your medicine according to your choices:')
+                response.append('<a href="/doctor" target="_blank">Find Doctors on Our Website 🧑‍⚕️</a>')
+                response.append('Plz choose your medicine according to your choices 🏥:')
                 response.append('<a href="/medicine" target="_blank">Checkout the Medicine</a>')
                 response.append('Thank you ❤️')
                 userSession[sessionId] = 10
