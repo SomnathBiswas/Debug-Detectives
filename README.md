@@ -103,3 +103,12 @@ To use Medify, simply navigate to the web-based interface and start interacting 
 - **Web Development:** The chatbot interface is built using modern web technologies such as HTML, CSS, and JavaScript, ensuring a seamless user experience across devices.
 - **Backend Infrastructure:** Medify’s backend handles user requests, data processing, and interfaces such as doctor consultations.
 - **Data Privacy and Security:** Medify prioritizes data privacy and security, implementing robust measures to protect user information and comply with regulations.
+
+## Flow Diagrams ✏️
+
+
+![Beige Colorful Minimal Flowchart Infographic Graph](https://github.com/SomnathBiswas/Debug-Detectives/assets/108716703/a9a0826a-12a4-4c7a-a60e-1cdc3c0e38a4)
+
+![Beige Colorful Minimal Flowchart Infographic Graph (1)](https://github.com/SomnathBiswas/Debug-Detectives/assets/108716703/121dd2fd-1fe4-43de-8a97-c542a3aa966d)
+
+
