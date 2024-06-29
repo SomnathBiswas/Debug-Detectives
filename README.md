@@ -1,3 +1,5 @@
+
+https://github.com/SomnathBiswas/Debug-Detectives/assets/108716703/c3016d1b-7ca9-45f5-b96a-c80d8402313f
 # Medify 🌐🩺 | An AI Powered Web Based Healthcare Chatbot
 
 ## Overview ℹ️
@@ -112,6 +114,10 @@ To use Medify, simply navigate to the web-based interface and start interacting 
 ![Beige Colorful Minimal Flowchart Infographic Graph (1)](https://github.com/SomnathBiswas/Debug-Detectives/assets/108716703/121dd2fd-1fe4-43de-8a97-c542a3aa966d)
 
 ## Demo Video 
+
+https://github.com/SomnathBiswas/Debug-Detectives/assets/108716703/94998ea3-03ae-4c14-964e-11fefb3a4d5b
+
+
 
 
 
