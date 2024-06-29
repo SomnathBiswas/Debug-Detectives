@@ -51,8 +51,14 @@ body {
 }
 
 .mic {
-    background-color: #2196F3;
+    background-color: #4154f1;
+     /* Sets the color of the icon and text to white */
+    background-color: transparent; /* Makes the background of the button transparent */
+    border: none; /* Removes the border of the button */
+    padding: 10px; /* Adjust padding as needed */
+    border-radius: 50%;
   }
+
   #transcript {
     margin-top: 10px;
     font-size: 16px;
