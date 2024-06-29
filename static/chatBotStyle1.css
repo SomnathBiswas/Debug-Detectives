@@ -32,6 +32,10 @@ body {
     overflow: hidden;
 }
 
+
+
+
+
 #chat-bot .icon:hover {
     box-shadow: 0 5px 20px rgb(209 231 221);
 }
@@ -45,6 +49,62 @@ body {
     width: 500px;
     justify-content: space-between;
 }
+
+.mic {
+    background-color: #2196F3;
+  }
+  #transcript {
+    margin-top: 10px;
+    font-size: 16px;
+  }
+
+.message-box {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: #eee;
+    border-top: 1px solid #ccc;
+}
+
+.message-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.message-submit, .mic-button {
+    background: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.message-submit:hover, .mic-button:hover {
+    background: #45a049;
+}
+
+.message-submit i, .mic-button i {
+    font-size: 16px;
+}
+
+.blinking {
+    animation: blinking 1s infinite;
+}
+
+@keyframes blinking {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
 
 #chat-bot .messenger.expanded {
     visibility: visible;
@@ -103,9 +163,9 @@ body {
 }
 
 #chat-bot .type-area span.send {
-    position: absolute;
+    /* position: absolute;
     right: 14px;
-    top: 9px;
+    top: 9px; */
     cursor: pointer;
     font-size: 18px;
 }

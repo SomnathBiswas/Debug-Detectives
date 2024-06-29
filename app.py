@@ -3,6 +3,8 @@ from flask import jsonify
 import secrets
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request, session
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.utils import secure_filename
+import assemblyai as aai
 
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg']
 app = Flask(__name__)
@@ -63,6 +65,28 @@ def diseases():
 def general_medicine():
     return render_template("general_medicine.html")
 
+@app.route("/allergy_immunology")
+def allergy_immunology():
+    return render_template("allergy_immunology.html")
+
+@app.route("/general_physician")
+def general_physician():
+    return render_template("general_physician.html")
+
+
+@app.route("/gynae")
+def gynae():
+    return render_template("gynae.html")
+
+@app.route("/repro_medicine")
+def repro_medicine():
+    return render_template("repro_medicine.html")
+
+
+@app.route("/diabetology")
+def diabetology():
+    return render_template("diabetology.html")
+
 @app.route("/book")
 def book():
     return render_template("book.html")
@@ -76,6 +100,29 @@ def pred_page():
     pred = session.get('pred_label', None)
     f_name = session.get('filename', None)
     return render_template('pred.html', pred=pred, f_name=f_name)
+
+@app.route('/transcribe', methods=['POST'])
+def transcribe():
+    if request.files.get("audio") is None:
+        return None
+    
+    # Put here some other checks (security, file length etc...)
+    f = request.files["audio"]
+    f.save(secure_filename(f.filename))
+    f.stream.seek(0)
+    content = ""
+    for line in f.stream.readlines():
+        content += line.decode("UTF-8") # Decode here as needed
+        
+    aai.settings.api_key = "d47294e988d844d0b36190f4d05f713f"
+    transcriber = aai.Transcriber()
+
+    transcript = transcriber.transcribe(content)
+
+    return transcript.text
+    
+    
+    
 
 
 
@@ -396,7 +443,6 @@ def chat_msg():
                 #response.append(f'<a href="https://www.google.com/search?q={type} disease hospital near me" target="_blank">1. Search Nearby Hospitals</a> OR <a href="{{ url_for("doctor") }}" target="_blank">2. Find Doctors on Our Website</a>')
                 response.append(f'<a href="https://www.google.com/search?q={type} disease hospital near me" target="_blank">Search Near By Hospitals</a>')   
                 response.append('<a href="/doctor" target="_blank">Find Doctors on Our Website 🧑‍⚕️</a>')
-                response.append('Plz choose your medicine according to your choices 🏥:')
                 response.append('<a href="/medicine" target="_blank">Checkout the Medicine</a>')
                 response.append('Thank you ❤️')
                 userSession[sessionId] = 10

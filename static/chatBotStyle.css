@@ -342,11 +342,11 @@ Message Box
     outline: none !important;
     resize: none;
     /* color: rgba(255, 255, 255, .8);*/
-    font-size: 15px;
-    height: 24px;
+    font-size: 14px;
+    /* height: 24px; */
     margin: 0;
     padding-right: 20px;
-    width: 200px;
+    /* width: 200p; */
     color: #444;
 }
 
@@ -355,10 +355,10 @@ Message Box
 }
 
 .message-box .message-submit {
-    position: absolute;
+    /* position: absolute; */
     z-index: 1;
-    top: 9px;
-    right: 10px;
+    /* top: 9px;
+    right: 10px; */
     color: #4A90E2;
     border: none;
     /* background: #c29d5f;*/

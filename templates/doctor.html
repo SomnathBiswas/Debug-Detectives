@@ -462,7 +462,7 @@
             <li><a class="nav-link scrollto active" href="/user">Home</a></li>
             <li><a class="nav-link scrollto" href="#about">BMI</a></li>
             <li><a class="nav-link scrollto" href="doctor">Find Doctors</a></li>
-            <li><a class="nav-link scrollto" href="medicine">Medicines</a></li>
+            
             <li><a class="nav-link scrollto" href="#features">Features</a></li>
             <li><a class="nav-link scrollto" href="contact">Contact Us</a></li>
             <li><a class="getstarted scrollto" href="login">Logout</a></li>
@@ -525,44 +525,51 @@
         </div>
         <div class="card general">
           <div class="card-content">
-            <img
-              src="static/Images/dermatology.png"
-              alt="Allergy & Immunology"
-            />
+           <a href="{{ url_for('allergy_immunology') }}">
+            <img src="static/Images/dermatology.png" alt="Allergy & Immunology"/>
+            </a>
             <h2>Allergy & Immunology</h2>
             <p>Description of Allergy & Immunology...</p>
           </div>
         </div>
         <div class="card general">
           <div class="card-content">
+            <a href="{{ url_for('general_physician') }}">
             <img src="static/Images/doctor.png" alt="General Physician" />
+            </a>
             <h2>General Physician</h2>
             <p>Description of General Physician...</p>
           </div>
         </div>
         <div class="card general">
           <div class="card-content">
+            <a href="{{ url_for('gynae') }}">
             <img
               src="static/Images/gynecology.png"
               alt="Obstetrics And Gynaecology"
             />
+            </a>
             <h2>Obstetrics And Gynaecology</h2>
             <p>Description of Obstetrics And Gynaecology...</p>
           </div>
         </div>
         <div class="card general">
           <div class="card-content">
+            <a href="{{ url_for('repro_medicine') }}">
             <img
               src="static/Images/fertilization.png"
               alt="Reproductive Medicine"
             />
+            </a>
             <h2>Reproductive Medicine</h2>
             <p>Description of Reproductive Medicine...</p>
           </div>
         </div>
         <div class="card medicine">
           <div class="card-content">
+            <a href="{{ url_for('diabetology') }}">
             <img src="static/Images/diabetes.png" />
+            </a>
             <h2>Diabetology</h2>
             <p>Description of Diabetology...</p>
           </div>
